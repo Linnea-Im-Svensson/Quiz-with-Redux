@@ -13,8 +13,8 @@ function App() {
   return (
     <Router>
       <Provider>
-        <div className='flex flex-col items-center justify-center px-16'>
-          <nav className='flex justify-center gap-8 py-6 mb-16 bg-green-200 w-[100vw]'>
+        <div className='flex flex-col items-center justify-center px-16 bg-gray-300 h-[100vh]'>
+          <nav className='absolute top-0  flex justify-center gap-8 py-6 mb-16 bg-gray-800 w-[100vw]'>
             <NavLink
               to='/admin'
               className='flex items-center justify-center h-10 w-32 bg-slate-300 rounded-lg'

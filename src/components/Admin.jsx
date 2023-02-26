@@ -11,6 +11,7 @@ import {
   IoIosArrowDropupCircle,
   IoIosArrowDropdownCircle,
 } from 'react-icons/io';
+import QuestionPreview from './QuestionPreview';
 
 function Admin() {
   const { admin } = useQuiz();
@@ -18,10 +19,10 @@ function Admin() {
   console.log(admin);
 
   return (
-    <div className='flex md:flex-row flex-col items-center justify-between gap-4 w-full '>
+    <div className='flex md:flex-row flex-col mt-20 items-center justify-between gap-4 w-full '>
       <form
         action=''
-        className='flex flex-col border-2 py-4 px-10 rounded-lg mr-auto h-[600px]'
+        className='flex flex-col border-2 py-4 px-10 rounded-lg mr-auto h-[600px] bg-white'
       >
         <label htmlFor='name'>Quiz name:</label>
         <input
@@ -124,31 +125,12 @@ function Admin() {
           ''
         )}
         <ul
-          className={` grid gap-4 lg:grid-cols-2 grid-cols-1 max-h-[570px] overflow-scroll pr-2 ${
+          className={` grid gap-4 lg:grid-cols-2 grid-cols-1 max-h-[570px] overflow-scroll p-2 bg-white rounded-lg ${
             admin.preview ? 'block' : 'hidden'
           }`}
         >
           {admin.questions.map((item, index) => {
-            return (
-              <li key={item.id} className='border-2 p-4 rounded-lg'>
-                <h2>Question {index + 1}</h2>
-                <p className='my-2'>{item.question}</p>
-                <div className='flex flex-col border-2 rounded-lg border-black'>
-                  <p className='bg-green-300 p-2 rounded-t-lg border-b-2 border-black'>
-                    Correct Answer: {item.correctAnswer}
-                  </p>
-                  <p className='bg-red-300 p-2 border-b-2 border-black'>
-                    Option 1: {item.option1}
-                  </p>
-                  <p className='bg-red-300 p-2 border-b-2 border-black'>
-                    Option 2: {item.option2}
-                  </p>
-                  <p className='bg-red-300 p-2 rounded-b-lg'>
-                    Option 3: {item.option3}
-                  </p>
-                </div>
-              </li>
-            );
+            return <QuestionPreview key={item.id} item={item} index={index} />;
           })}
         </ul>
       </div>

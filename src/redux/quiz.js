@@ -20,7 +20,14 @@ const initialState = {
 
 export const [
   useQuiz,
-  { setName, setAnswers, setNewQuestionName, addQuestion, setPreview },
+  {
+    setName,
+    setAnswers,
+    setNewQuestionName,
+    addQuestion,
+    deleteQuestion,
+    setPreview,
+  },
 ] = createReduxModule('quiz', initialState, {
   setName: (state, newName) => {
     return { ...state, admin: { ...state.admin, quizName: newName } };
@@ -74,6 +81,15 @@ export const [
           option3: '',
         },
         newQuestion: '',
+      },
+    };
+  },
+  deleteQuestion: (state, id) => {
+    return {
+      ...state,
+      admin: {
+        ...state.admin,
+        questions: state.admin.questions.filter((item) => item.id !== id),
       },
     };
   },
