@@ -7,13 +7,14 @@ import {
 } from 'react-router-dom';
 import './App.css';
 import Admin from './components/Admin';
+import Quiz from './components/Quiz';
 import { useQuiz } from './redux/quiz';
 
 function App() {
   return (
     <Router>
       <Provider>
-        <div className='flex flex-col items-center justify-center px-16 bg-gray-300 h-[100vh]'>
+        <div className='flex flex-col items-center px-16 bg-gray-300 h-[100vh]'>
           <nav className='absolute top-0  flex justify-center gap-8 py-6 mb-16 bg-gray-800 w-[100vw]'>
             <NavLink
               to='/admin'
@@ -31,7 +32,7 @@ function App() {
           <Routes>
             <Route path='/' element={<h1>Home</h1>} />
             <Route path='/admin' element={<Admin />} />
-            <Route path='/quiz' element={<h1>Quiz</h1>} />
+            <Route path='/quiz' element={<Quiz />} />
           </Routes>
         </div>
       </Provider>

@@ -1,4 +1,3 @@
-import React, { useState } from 'react';
 import {
   useQuiz,
   setName,
@@ -6,24 +5,22 @@ import {
   setNewQuestionName,
   addQuestion,
   setPreview,
+  editQuestion,
+  addGame,
 } from '../redux/quiz';
 import {
   IoIosArrowDropupCircle,
   IoIosArrowDropdownCircle,
 } from 'react-icons/io';
-import QuestionPreview from './QuestionPreview';
+import QuestionPreviewItem from './QuestionPreviewItem';
 
 function Admin() {
   const { admin } = useQuiz();
 
-  console.log(admin);
-
   return (
-    <div className='flex md:flex-row flex-col mt-20 items-center justify-between gap-4 w-full '>
-      <form
-        action=''
-        className='flex flex-col border-2 py-4 px-10 rounded-lg mr-auto h-[600px] bg-white'
-      >
+    <div className='flex md:flex-row flex-col md:mt-28 mt-28  md:justify-between justify-start gap-4 w-full '>
+      {/* lägg till onSubmit */}
+      <form className='flex flex-col justify-center items-center border-2 py-4 px-10 rounded-lg md:mr-auto mr-0 h-[600px] bg-white'>
         <label htmlFor='name'>Quiz name:</label>
         <input
           className='border-2 mb-8'
@@ -97,17 +94,35 @@ function Admin() {
             onChange={(e) => setAnswers(e.target)}
           />
         </div>
+        <div className='flex gap-4'>
+          {admin.edit ? (
+            <button
+              className='flex items-center justify-center h-10 w-32 bg-slate-300 rounded-lg mb-10'
+              onClick={(e) => (editQuestion(), e.preventDefault())}
+            >
+              Edit Question
+            </button>
+          ) : (
+            <button
+              className='flex items-center justify-center h-10 w-32 bg-slate-300 rounded-lg mb-10'
+              onClick={(e) => (addQuestion(), e.preventDefault())}
+            >
+              Add Question
+            </button>
+          )}
+        </div>
         <button
-          className='flex items-center justify-center h-10 w-32 bg-slate-300 rounded-lg mb-10'
-          onClick={(e) => (addQuestion(), e.preventDefault())}
+          className='w-full h-10 bg-slate-300 p-2 rounded-lg'
+          onClick={(e) => (addGame(), e.preventDefault())}
         >
-          Add Question
-        </button>
-        <button className='w-full h-10 bg-slate-300 p-2 rounded-lg'>
           Add Game
         </button>
       </form>
-      <div className='w-[800px] mb-auto'>
+      <div
+        className={`lg:w-[800px] w-[500px] mb-auto ${
+          admin.questions.length === 0 ? 'hidden' : 'block'
+        }`}
+      >
         {admin.questions.length !== 0 ? (
           <div className='flex justify-between items-center p-2'>
             <p>Total number of questions: {admin.questions.length}</p>
@@ -125,12 +140,14 @@ function Admin() {
           ''
         )}
         <ul
-          className={` grid gap-4 lg:grid-cols-2 grid-cols-1 max-h-[570px] overflow-scroll p-2 bg-white rounded-lg ${
+          className={` grid gap-4 place-items-center lg:grid-cols-2 grid-cols-1  max-h-[570px] overflow-scroll p-2 bg-white rounded-lg ${
             admin.preview ? 'block' : 'hidden'
           }`}
         >
           {admin.questions.map((item, index) => {
-            return <QuestionPreview key={item.id} item={item} index={index} />;
+            return (
+              <QuestionPreviewItem key={item.id} item={item} index={index} />
+            );
           })}
         </ul>
       </div>
