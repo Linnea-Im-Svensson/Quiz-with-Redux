@@ -20,6 +20,7 @@ const initialState = {
   quiz: {
     playing: false,
     game: {},
+    points: 0,
   },
   players: {},
   randomize: [],
@@ -40,6 +41,8 @@ export const [
     createGame,
     backToGames,
     randomizeArr,
+    setAnswered,
+    addPoint,
   },
 ] = createReduxModule('quiz', initialState, {
   setName: (state, newName) => {
@@ -167,21 +170,24 @@ export const [
         ...state.games,
         {
           name: state.admin.quizName,
-          questions: [
-            state.admin.questions.map((item) => {
-              return {
-                question: item.question,
-                answers: [
-                  { text: item.correctAnswer, correct: true },
-                  { text: item.option1, correct: false },
-                  { text: item.option2, correct: false },
-                  { text: item.option3, correct: false },
-                ],
-                answered: false,
-                point: false,
-              };
-            }),
-          ],
+          questions: state.admin.questions.map((item) => {
+            return {
+              question: item.question,
+              answers: [
+                {
+                  text: item.correctAnswer,
+                  correct: true,
+                  bg: 'bg-green-500',
+                },
+                { text: item.option1, correct: false, bg: 'bg-red-500' },
+                { text: item.option2, correct: false, bg: 'bg-red-500' },
+                { text: item.option3, correct: false, bg: 'bg-red-500' },
+              ],
+              answered: false,
+              point: false,
+            };
+          }),
+
           id: uuid(),
         },
       ],
@@ -208,7 +214,7 @@ export const [
     };
   },
   backToGames: (state) => {
-    return { ...state, quiz: { ...state.quiz, playing: false } };
+    return { ...state, quiz: { ...state.quiz, playing: false, points: 0 } };
   },
   randomizeArr: (state) => {
     const arr = [];
@@ -221,5 +227,24 @@ export const [
       ...state,
       randomize: arr,
     };
+  },
+  setAnswered: (state, questionName) => {
+    return {
+      ...state,
+      quiz: {
+        ...state.quiz,
+        game: state.quiz.game.map((game) => {
+          return {
+            ...game,
+            questions: game.questions.map((q) => {
+              return q.question === questionName ? { ...q, answered: true } : q;
+            }),
+          };
+        }),
+      },
+    };
+  },
+  addPoint: (state) => {
+    return { ...state, quiz: { ...state.quiz, points: state.quiz.points + 1 } };
   },
 });

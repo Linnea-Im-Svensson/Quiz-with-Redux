@@ -4,7 +4,7 @@ import Game from './Game';
 
 function Quiz() {
   const { games, quiz } = useQuiz();
-  console.log(quiz);
+  console.log(games);
 
   return (
     <>

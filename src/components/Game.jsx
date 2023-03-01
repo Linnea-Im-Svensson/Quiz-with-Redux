@@ -1,10 +1,10 @@
 import { useQuiz, backToGames } from '../redux/quiz';
 import { BsFillArrowLeftSquareFill } from 'react-icons/bs';
-import GameAnswer from './GameAnswer';
-import AnswerBtn from './shared/AnswerBtn';
+import GameQuestion from './GameQuestion';
 
 function Game() {
-  const { quiz, randomize } = useQuiz();
+  const { quiz } = useQuiz();
+  console.log('this: ', quiz.game[0].questions[0]);
 
   return (
     <div className='flex flex-col items-center justify-start h-[80vh] md:w-[80vw]  w-[100vw] mt-28 relative'>
@@ -13,19 +13,17 @@ function Game() {
       </button>
       <h2 className='text-xl font-semibold mb-6'>{quiz.game[0].name}</h2>
 
-      <div>
-        {' '}
-        <h2 className='text-2xl font-semibold ml-4 mb-4'>
-          {quiz.game[0].questions[0][0].question}
-        </h2>
-        <div className='grid grid-cols-2 lg:w-[60vw] md:w-[80vw] w-[90vw] h-40'>
-          {randomize.map((answer) => {
-            return (
-              <AnswerBtn key={answer} nr={answer}>
-                <GameAnswer option={answer} />
-              </AnswerBtn>
-            );
-          })}
+      <div className='w-fit h-[240px] overflow-hidden  flex flex-col gap-8'>
+        {quiz.game[0].questions.map((question, index) => {
+          return (
+            !question.answered && (
+              <GameQuestion key={index} question={question} />
+            )
+          );
+        })}
+        <div className='mt-20 flex flex-col items-center justify-center'>
+          <p>Game done</p>
+          <p className='mt-8'>Total points: {quiz.points}</p>
         </div>
       </div>
     </div>
@@ -33,3 +31,5 @@ function Game() {
 }
 
 export default Game;
+
+// <GameQuestion key={index} questionNr={index} />
