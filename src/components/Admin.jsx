@@ -18,7 +18,10 @@ function Admin() {
   const { admin } = useQuiz();
 
   return (
-    <div className='flex md:flex-row flex-col md:mt-28 mt-28  md:justify-between justify-start gap-4 w-full '>
+    <div
+      className='flex md:flex-row flex-col md:mt-28 mt-28  md:justify-between justify-start gap-4 w-full '
+      id='top'
+    >
       {/* lägg till onSubmit */}
       <form className='flex flex-col justify-center items-center border-2 py-4 px-10 rounded-lg md:mr-auto mr-0 h-[600px] bg-white'>
         <label htmlFor='name'>Quiz name:</label>

@@ -1,6 +1,7 @@
 import React from 'react';
 import { deleteQuestion, editMode } from '../redux/quiz';
 import { BsPencil } from 'react-icons/bs';
+import { Link } from 'react-router-dom';
 
 function QuestionPreview({ item, index }) {
   return (

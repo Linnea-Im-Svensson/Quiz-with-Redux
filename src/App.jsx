@@ -8,7 +8,12 @@ import {
 import './App.css';
 import Admin from './components/Admin';
 import Quiz from './components/Quiz';
-import { useQuiz } from './redux/quiz';
+
+// fixa random frågor
+//justera random svaren så inte alla hamnar på samma
+//ändra om frågorna så de inte visas som en pez-dispenser utan att de genereras allt eftersom
+//lägg till highscore
+//lägg till olika spelare
 
 function App() {
   return (

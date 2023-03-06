@@ -43,6 +43,8 @@ export const [
     randomizeArr,
     setAnswered,
     addPoint,
+    editGame,
+    deleteGame,
   },
 ] = createReduxModule('quiz', initialState, {
   setName: (state, newName) => {
@@ -110,6 +112,7 @@ export const [
     };
   },
   editMode: (state, item) => {
+    window.scrollTo(0, 0);
     return {
       ...state,
       admin: {
@@ -246,5 +249,28 @@ export const [
   },
   addPoint: (state) => {
     return { ...state, quiz: { ...state.quiz, points: state.quiz.points + 1 } };
+  },
+  editGame: (state, game) => {
+    return {
+      ...state,
+      admin: {
+        ...state.admin,
+        quizName: game.name,
+        questions: game.questions.map((q) => {
+          return {
+            question: q.question,
+            correctAnswer: q.answers[0].text,
+            option1: q.answers[1].text,
+            option2: q.answers[2].text,
+            option3: q.answers[3].text,
+            id: uuid(),
+          };
+        }),
+      },
+      games: state.games.filter((g) => g.id !== game.id),
+    };
+  },
+  deleteGame: (state, id) => {
+    return { ...state, games: state.games.filter((game) => game.id !== id) };
   },
 });

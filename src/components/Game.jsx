@@ -4,7 +4,6 @@ import GameQuestion from './GameQuestion';
 
 function Game() {
   const { quiz } = useQuiz();
-  console.log('this: ', quiz.game[0].questions[0]);
 
   return (
     <div className='flex flex-col items-center justify-start h-[80vh] md:w-[80vw]  w-[100vw] mt-28 relative'>
