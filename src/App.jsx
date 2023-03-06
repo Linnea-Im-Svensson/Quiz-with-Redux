@@ -12,7 +12,7 @@ import Quiz from './components/Quiz';
 //lägg till highscore
 //lägg till olika spelare
 //gör designen snygg
-//spara i localstorage
+//ändra så nya games hamnar först?
 
 function App() {
   return (

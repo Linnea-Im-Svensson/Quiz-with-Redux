@@ -7,6 +7,7 @@ import {
   setPreview,
   editQuestion,
   addGame,
+  setStorage,
 } from '../redux/quiz';
 import {
   IoIosArrowDropupCircle,
@@ -116,7 +117,7 @@ function Admin() {
         </div>
         <button
           className='w-full h-10 bg-slate-300 p-2 rounded-lg'
-          onClick={(e) => (addGame(), e.preventDefault())}
+          onClick={(e) => (addGame(), e.preventDefault(), setStorage())}
         >
           Add Game
         </button>

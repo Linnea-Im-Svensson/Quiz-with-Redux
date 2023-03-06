@@ -1,30 +1,36 @@
 import { createReduxModule } from 'hooks-for-redux';
 import { v4 as uuid } from 'uuid';
 
-const initialState = {
-  admin: {
-    quizName: '',
-    newQuestion: '',
-    answers: {
-      correctAnswer: '',
-      option1: '',
-      option2: '',
-      option3: '',
+let initialState;
+
+if (localStorage.getItem('initialState') === null) {
+  initialState = {
+    admin: {
+      quizName: '',
+      newQuestion: '',
+      answers: {
+        correctAnswer: '',
+        option1: '',
+        option2: '',
+        option3: '',
+      },
+      questions: [],
+      preview: true,
+      edit: false,
+      editId: '',
     },
-    questions: [],
-    preview: true,
-    edit: false,
-    editId: '',
-  },
-  games: [],
-  quiz: {
-    playing: false,
-    game: {},
-    points: 0,
-    currQuestion: 0,
-  },
-  players: {},
-};
+    games: [],
+    quiz: {
+      playing: false,
+      game: {},
+      points: 0,
+      currQuestion: 0,
+    },
+    players: {},
+  };
+} else {
+  initialState = JSON.parse(localStorage.getItem('initialState'));
+}
 
 export const [
   useQuiz,
@@ -44,6 +50,7 @@ export const [
     editGame,
     deleteGame,
     nextQuestion,
+    setStorage,
   },
 ] = createReduxModule('quiz', initialState, {
   setName: (state, newName) => {
@@ -269,5 +276,10 @@ export const [
       ...state,
       quiz: { ...state.quiz, currQuestion: state.quiz.currQuestion + 1 },
     };
+  },
+  setStorage: (state) => {
+    localStorage.setItem('initialState', JSON.stringify(state));
+    console.log(state);
+    return { ...state };
   },
 });
