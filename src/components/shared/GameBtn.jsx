@@ -1,9 +1,4 @@
-import {
-  createGame,
-  deleteGame,
-  editGame,
-  randomizeArr,
-} from '../../redux/quiz';
+import { createGame, deleteGame, editGame } from '../../redux/quiz';
 import { BsPencil } from 'react-icons/bs';
 import { Link } from 'react-router-dom';
 
@@ -12,7 +7,7 @@ function GameBtn({ game }) {
     <div className='bg-white px-4 py-2 rounded-lg flex items-center justify-between'>
       <button
         className=' text-left w-48'
-        onClick={() => (createGame(game), randomizeArr())}
+        onClick={() => createGame(game)}
         key={game.id}
       >
         {game.name}

@@ -21,9 +21,9 @@ const initialState = {
     playing: false,
     game: {},
     points: 0,
+    currQuestion: 0,
   },
   players: {},
-  randomize: [],
 };
 
 export const [
@@ -40,11 +40,10 @@ export const [
     addGame,
     createGame,
     backToGames,
-    randomizeArr,
-    setAnswered,
     addPoint,
     editGame,
     deleteGame,
+    nextQuestion,
   },
 ] = createReduxModule('quiz', initialState, {
   setName: (state, newName) => {
@@ -205,46 +204,38 @@ export const [
     };
   },
   createGame: (state, payload) => {
+    let random = payload.questions
+      .map((q) => ({ q, sort: Math.random() }))
+      .sort((a, b) => a.sort - b.sort)
+      .map(({ q }) => q);
+
+    random = random.map((q) => {
+      let random = q.answers
+        .map((q) => ({ q, sort: Math.random() }))
+        .sort((a, b) => a.sort - b.sort)
+        .map(({ q }) => q);
+      console.log('random answers: ', random);
+      return { ...q, answers: random };
+    });
+
     return {
       ...state,
       quiz: {
         ...state.quiz,
         playing: true,
-        game: state.games.filter((game) => {
-          return game.id === payload.id;
-        }),
+        game: [
+          {
+            ...payload,
+            questions: random,
+          },
+        ],
       },
     };
   },
   backToGames: (state) => {
-    return { ...state, quiz: { ...state.quiz, playing: false, points: 0 } };
-  },
-  randomizeArr: (state) => {
-    const arr = [];
-    do {
-      const nr = Math.floor(Math.random() * 4);
-      !arr.includes(nr) && arr.push(nr);
-    } while (arr.length !== 4);
-
     return {
       ...state,
-      randomize: arr,
-    };
-  },
-  setAnswered: (state, questionName) => {
-    return {
-      ...state,
-      quiz: {
-        ...state.quiz,
-        game: state.quiz.game.map((game) => {
-          return {
-            ...game,
-            questions: game.questions.map((q) => {
-              return q.question === questionName ? { ...q, answered: true } : q;
-            }),
-          };
-        }),
-      },
+      quiz: { ...state.quiz, playing: false, points: 0, currQuestion: 0 },
     };
   },
   addPoint: (state) => {
@@ -272,5 +263,11 @@ export const [
   },
   deleteGame: (state, id) => {
     return { ...state, games: state.games.filter((game) => game.id !== id) };
+  },
+  nextQuestion: (state) => {
+    return {
+      ...state,
+      quiz: { ...state.quiz, currQuestion: state.quiz.currQuestion + 1 },
+    };
   },
 });

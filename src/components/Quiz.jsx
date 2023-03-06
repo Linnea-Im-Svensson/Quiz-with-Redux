@@ -5,7 +5,6 @@ import GameBtn from './shared/GameBtn';
 
 function Quiz() {
   const { games, quiz } = useQuiz();
-  console.log(games);
   return (
     <>
       {quiz.playing ? (

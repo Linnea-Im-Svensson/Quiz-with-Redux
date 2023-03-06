@@ -5,6 +5,8 @@ import GameQuestion from './GameQuestion';
 function Game() {
   const { quiz } = useQuiz();
 
+  console.log(quiz.game);
+
   return (
     <div className='flex flex-col items-center justify-start h-[80vh] md:w-[80vw]  w-[100vw] mt-28 relative'>
       <button onClick={() => backToGames()}>
@@ -13,17 +15,14 @@ function Game() {
       <h2 className='text-xl font-semibold mb-6'>{quiz.game[0].name}</h2>
 
       <div className='w-fit h-[240px] overflow-hidden  flex flex-col gap-8'>
-        {quiz.game[0].questions.map((question, index) => {
-          return (
-            !question.answered && (
-              <GameQuestion key={index} question={question} />
-            )
-          );
-        })}
-        <div className='mt-20 flex flex-col items-center justify-center'>
-          <p>Game done</p>
-          <p className='mt-8'>Total points: {quiz.points}</p>
-        </div>
+        {quiz.game[0].questions[quiz.currQuestion] !== undefined ? (
+          <GameQuestion question={quiz.game[0].questions[quiz.currQuestion]} />
+        ) : (
+          <div className='mt-20 flex flex-col items-center justify-center'>
+            <p>Game done</p>
+            <p className='mt-8'>Total points: {quiz.points}</p>
+          </div>
+        )}
       </div>
     </div>
   );
@@ -32,3 +31,11 @@ function Game() {
 export default Game;
 
 // <GameQuestion key={index} questionNr={index} />
+
+// {quiz.game[0].questions.map((question, index) => {
+//   return (
+//     !question.answered && (
+//       <GameQuestion key={index} question={question} />
+//     )
+//   );
+// })}
