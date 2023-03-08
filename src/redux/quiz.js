@@ -25,8 +25,17 @@ if (localStorage.getItem('initialState') === null) {
       game: {},
       points: 0,
       currQuestion: 0,
+      currPlayer: 1,
+      activePlayers: 1,
+      players: [
+        { id: 1, name: '', score: 0 },
+        { id: 2, name: '', score: 0 },
+        { id: 3, name: '', score: 0 },
+        { id: 4, name: '', score: 0 },
+      ],
+      playersReady: false,
+      highestScore: 0,
     },
-    players: {},
   };
 } else {
   initialState = JSON.parse(localStorage.getItem('initialState'));
@@ -51,6 +60,11 @@ export const [
     deleteGame,
     nextQuestion,
     setStorage,
+    setPlayerName,
+    setActivePlayers,
+    setReady,
+    nextPlayer,
+    setScore,
   },
 ] = createReduxModule('quiz', initialState, {
   setName: (state, newName) => {
@@ -221,7 +235,6 @@ export const [
         .map((q) => ({ q, sort: Math.random() }))
         .sort((a, b) => a.sort - b.sort)
         .map(({ q }) => q);
-      console.log('random answers: ', random);
       return { ...q, answers: random };
     });
 
@@ -230,6 +243,10 @@ export const [
       quiz: {
         ...state.quiz,
         playing: true,
+        currPlayer: 1,
+        players: state.quiz.players.map((p) => {
+          return { ...p, score: 0 };
+        }),
         game: [
           {
             ...payload,
@@ -242,7 +259,13 @@ export const [
   backToGames: (state) => {
     return {
       ...state,
-      quiz: { ...state.quiz, playing: false, points: 0, currQuestion: 0 },
+      quiz: {
+        ...state.quiz,
+        playing: false,
+        playersReady: false,
+        points: 0,
+        currQuestion: 0,
+      },
     };
   },
   addPoint: (state) => {
@@ -279,7 +302,50 @@ export const [
   },
   setStorage: (state) => {
     localStorage.setItem('initialState', JSON.stringify(state));
-    console.log(state);
     return { ...state };
+  },
+  setPlayerName: (state, payload) => {
+    return {
+      ...state,
+      quiz: {
+        ...state.quiz,
+        players: state.quiz.players.map((p) => {
+          return p.id === payload.player ? { ...p, name: payload.text } : p;
+        }),
+      },
+    };
+  },
+  setActivePlayers: (state, nr) => {
+    return { ...state, quiz: { ...state.quiz, activePlayers: nr } };
+  },
+  setReady: (state) => {
+    return {
+      ...state,
+      quiz: { ...state.quiz, playersReady: state.quiz.ready ? false : true },
+    };
+  },
+  nextPlayer: (state) => {
+    return {
+      ...state,
+      quiz: {
+        ...state.quiz,
+        currPlayer: state.quiz.currPlayer + 1,
+        currQuestion: 0,
+      },
+    };
+  },
+  setScore: (state, payload) => {
+    return {
+      ...state,
+      quiz: {
+        ...state.quiz,
+        players: state.quiz.players.map((player) => {
+          return player.id === payload
+            ? { ...player, score: state.quiz.points }
+            : player;
+        }),
+        points: 0,
+      },
+    };
   },
 });

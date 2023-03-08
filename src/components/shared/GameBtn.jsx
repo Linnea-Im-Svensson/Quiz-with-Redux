@@ -4,9 +4,9 @@ import { Link } from 'react-router-dom';
 
 function GameBtn({ game }) {
   return (
-    <div className='bg-white px-4 py-2 rounded-lg flex items-center justify-between'>
+    <div className='bg-blue-100 px-4 py-2 rounded-lg flex items-center justify-between'>
       <button
-        className=' text-left w-48'
+        className='text-left w-full'
         onClick={() => createGame(game)}
         key={game.id}
       >

@@ -24,7 +24,7 @@ function Admin() {
       id='top'
     >
       {/* lägg till onSubmit */}
-      <form className='flex flex-col justify-center items-center border-2 py-4 px-10 rounded-lg md:mr-auto mr-0 h-[600px] bg-white'>
+      <form className='flex flex-col justify-center items-center border-2 py-4 px-10 rounded-lg md:mr-auto mr-0 h-[600px] bg-blue-50'>
         <label htmlFor='name'>Quiz name:</label>
         <input
           className='border-2 mb-8'
@@ -101,14 +101,14 @@ function Admin() {
         <div className='flex gap-4'>
           {admin.edit ? (
             <button
-              className='flex items-center justify-center h-10 w-32 bg-slate-300 rounded-lg mb-10'
+              className='flex items-center justify-center h-10 w-32 text-blue-100 bg-myBlue rounded-lg mb-10'
               onClick={(e) => (editQuestion(), e.preventDefault())}
             >
               Edit Question
             </button>
           ) : (
             <button
-              className='flex items-center justify-center h-10 w-32 bg-slate-300 rounded-lg mb-10'
+              className='flex items-center justify-center h-10 w-32 text-blue-100 bg-myBlue rounded-lg mb-10'
               onClick={(e) => (addQuestion(), e.preventDefault())}
             >
               Add Question
@@ -116,7 +116,7 @@ function Admin() {
           )}
         </div>
         <button
-          className='w-full h-10 bg-slate-300 p-2 rounded-lg'
+          className='w-full h-10 text-blue-100 bg-myBlue p-2 rounded-lg'
           onClick={(e) => (addGame(), e.preventDefault(), setStorage())}
         >
           Add Game
