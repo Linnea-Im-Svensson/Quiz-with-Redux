@@ -65,6 +65,7 @@ export const [
     setReady,
     nextPlayer,
     setScore,
+    setShowHighscore,
   },
 ] = createReduxModule('quiz', initialState, {
   setName: (state, newName) => {
@@ -187,10 +188,10 @@ export const [
     };
   },
   addGame: (state) => {
+    const newId = uuid();
     return {
       ...state,
       games: [
-        ...state.games,
         {
           name: state.admin.quizName,
           questions: state.admin.questions.map((item) => {
@@ -210,9 +211,11 @@ export const [
               point: false,
             };
           }),
-
-          id: uuid(),
+          highscore: [],
+          showHighscore: true,
+          id: newId,
         },
+        ...state.games,
       ],
       admin: {
         ...state.admin,
@@ -292,7 +295,12 @@ export const [
     };
   },
   deleteGame: (state, id) => {
-    return { ...state, games: state.games.filter((game) => game.id !== id) };
+    console.log(state);
+    console.log(id);
+    return {
+      ...state,
+      games: state.games.filter((game) => game.id !== id),
+    };
   },
   nextQuestion: (state) => {
     return {
@@ -335,6 +343,44 @@ export const [
     };
   },
   setScore: (state, payload) => {
+    const currPlayer = state.quiz.players.filter((p) => p.id === payload);
+
+    let highscoreArr = state.games.filter((game) => {
+      if (game.name === state.quiz.game[0].name) {
+        return game;
+      }
+    });
+    highscoreArr = highscoreArr[0].highscore;
+
+    let sameName = false;
+
+    if (highscoreArr.length === 0 && state.quiz.points !== 0) {
+      highscoreArr.push({
+        name: currPlayer[0].name,
+        score: state.quiz.points,
+        id: uuid(),
+      });
+    } else {
+      highscoreArr.forEach((player) => {
+        if (player.name === currPlayer[0].name) {
+          sameName = true;
+        }
+      });
+      if (sameName) {
+        highscoreArr = highscoreArr.map((player) => {
+          return player.name === currPlayer[0].name &&
+            player.score < state.quiz.points
+            ? { ...player, score: state.quiz.points }
+            : player;
+        });
+      } else if (!sameName && state.quiz.points !== 0) {
+        highscoreArr.push({
+          name: currPlayer[0].name,
+          score: state.quiz.points,
+          id: uuid(),
+        });
+      }
+    }
     return {
       ...state,
       quiz: {
@@ -346,6 +392,25 @@ export const [
         }),
         points: 0,
       },
+
+      games: state.games.map((game) => {
+        return game.id === state.quiz.game[0].id && state.quiz.points !== 0
+          ? {
+              ...game,
+              highscore: highscoreArr,
+            }
+          : game;
+      }),
+    };
+  },
+  setShowHighscore: (state, name) => {
+    return {
+      ...state,
+      games: state.games.map((game) => {
+        return game.name === name
+          ? { ...game, showHighscore: game.showHighscore ? false : true }
+          : game;
+      }),
     };
   },
 });

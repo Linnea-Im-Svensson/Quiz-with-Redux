@@ -6,32 +6,29 @@ import { useEffect, useState } from 'react';
 
 function Game() {
   const { quiz } = useQuiz();
-  const [game, setGame] = useState(
-    quiz.players.map((p, index) => {
-      return (
-        quiz.players[index].name !== '' &&
-        quiz.players[index].id === quiz.currPlayer && (
-          <div key={index}>
-            <h1>{quiz.players[index].name}</h1>
-            <GameContainer />
-          </div>
-        )
-      );
-    })
-  );
+  // const [game, setGame] = useState(
+  //   quiz.players.map((p, index) => {
+  //     return (
+  //       quiz.players[index].name !== '' &&
+  //       quiz.players[index].id === quiz.currPlayer && (
+  //         <GameContainer key={p.id} />
+  //       )
+  //     );
+  //   })
+  // );
 
-  useEffect(() => {
-    setGame(
-      quiz.players.map((p, index) => {
-        return (
-          quiz.players[index].name !== '' &&
-          quiz.players[index].id === quiz.currPlayer && (
-            <GameContainer key={index} />
-          )
-        );
-      })
-    );
-  }, [quiz.currPlayer]);
+  // useEffect(() => {
+  //   setGame(
+  //     quiz.players.map((p, index) => {
+  //       return (
+  //         quiz.players[index].name !== '' &&
+  //         quiz.players[index].id === quiz.currPlayer && (
+  //           <GameContainer key={index} />
+  //         )
+  //       );
+  //     })
+  //   );
+  // }, [quiz.currPlayer]);
 
   return (
     <>
@@ -42,11 +39,22 @@ function Game() {
           </button>
           <div className='flex flex-col justify-center items-center gap-4 mb-6 text-white'>
             <p className='text-2xl font-semibold'>{quiz.game[0].name}</p>
-            <p>Player: {quiz.players[quiz.currPlayer - 1].name}</p>
+            {quiz.currQuestion !== quiz.game[0].questions.length && (
+              <p className='font-semibold'>
+                Now playing: {quiz.players[quiz.currPlayer - 1].name}
+              </p>
+            )}
           </div>
 
           <div className='w-fit h-[fit overflow-hidden  flex flex-col gap-8'>
-            {game}
+            {quiz.players.map((p, index) => {
+              return (
+                quiz.players[index].name !== '' &&
+                quiz.players[index].id === quiz.currPlayer && (
+                  <GameContainer key={p.id} />
+                )
+              );
+            })}
           </div>
         </div>
       ) : (

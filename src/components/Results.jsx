@@ -14,12 +14,13 @@ function Results() {
   }, []);
 
   return (
-    <div className='mt-20 flex flex-col items-center justify-center w-[85vw] bg-blue-50 rounded-lg p-4'>
+    <div className='mt-20 flex flex-col items-center justify-center lg:w-[55vw] md:w-[75vw] w-[85vw] bg-blue-50 rounded-lg p-4'>
       <p className='text-3xl mb-10'>Game done</p>
       <div className='flex w-full items-center justify-around'>
         {quiz.players.map((p) => {
           return (
-            p.name !== '' && (
+            p.name !== '' &&
+            p.id <= quiz.activePlayers && (
               <div
                 key={p.id}
                 className='flex flex-col items-center justify-center mb-6 relative'

@@ -4,7 +4,7 @@ import { BsPencil } from 'react-icons/bs';
 
 function QuestionPreview({ item, index }) {
   return (
-    <li className='relative border-2 p-4 rounded-lg w-full'>
+    <li className='relative border-2 p-4 rounded-lg w-full bg-blue-50'>
       <button
         className='absolute top-2 right-2 w-8 h-8 flex items-center justify-center border-2 rounded-full'
         onClick={() => deleteQuestion(item.id)}
