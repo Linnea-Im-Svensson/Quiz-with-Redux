@@ -295,8 +295,6 @@ export const [
     };
   },
   deleteGame: (state, id) => {
-    console.log(state);
-    console.log(id);
     return {
       ...state,
       games: state.games.filter((game) => game.id !== id),

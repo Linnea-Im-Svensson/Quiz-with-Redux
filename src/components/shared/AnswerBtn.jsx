@@ -1,4 +1,10 @@
-import { useQuiz, addPoint, nextQuestion, setScore } from '../../redux/quiz';
+import {
+  useQuiz,
+  addPoint,
+  nextQuestion,
+  setScore,
+  setStorage,
+} from '../../redux/quiz';
 import { useState } from 'react';
 
 function AnswerBtn({ answer, letter }) {
@@ -19,7 +25,7 @@ function AnswerBtn({ answer, letter }) {
           1000
         ) &&
           quiz.game[0].questions[quiz.currQuestion + 1] === undefined &&
-          setScore(quiz.currPlayer)
+          (setScore(quiz.currPlayer), setStorage())
       )}
       className={`h-full w-full flex items-center justify-start p-4 gap-4 border-2 border-blue-200  hover:bg-opacity-70 ${bg} rounded-lg`}
     >
